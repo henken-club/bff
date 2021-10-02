@@ -12,7 +12,7 @@ import {AppConfig} from './app.config';
       useFactory: async (config: ConfigType<typeof AppConfig>) => ({
         server: {},
         gateway: {
-          serviceList: [],
+          serviceList: config.graphql.gateway.serviceList,
           serviceHealthCheck: true,
         },
       }),
