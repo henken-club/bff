@@ -5,6 +5,7 @@
     "build": "tsc --build tsconfig.build.json",
     "dev": "ts-node-dev src/main.ts",
     "start": "node dist/main.js",
+    "schema-generate": "gql-gen",
     "typecheck": "tsc --noEmit",
     "lint": "run-s -cn lint:*",
     "lint:eslint": "eslint . --ext .js,.ts --cache",
@@ -20,6 +21,8 @@
   },
   "devDependencies": {
     "@arkweid/lefthook": "0.7.6",
+    "@graphql-codegen/cli": "^2.2.0",
+    "@graphql-codegen/schema-ast": "^2.2.0",
     "@shopify/eslint-plugin": "40.4.0",
     "@shopify/prettier-config": "1.1.2",
     "@tsconfig/node16": "^1.0.2",
