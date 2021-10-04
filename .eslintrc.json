@@ -7,6 +7,7 @@
   ],
   "plugins": ["unused-imports"],
   "rules": {
+    "no-process-env": [0],
     "import/extensions": [0],
     "unused-imports/no-unused-imports": [2],
     "@typescript-eslint/consistent-type-definitions": [2, "type"],
@@ -21,18 +22,6 @@
         "@typescript-eslint/triple-slash-reference": [0],
         "@typescript-eslint/consistent-type-definitions": [0],
         "@typescript-eslint/no-namespace": [0]
-      }
-    },
-    {
-      "files": ["*.module.ts"],
-      "rules": {
-        "@typescript-eslint/no-extraneous-class": 0
-      }
-    },
-    {
-      "files": ["*.config.ts"],
-      "rules": {
-        "no-process-env": 0
       }
     }
   ]
