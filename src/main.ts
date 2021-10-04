@@ -1,12 +1,41 @@
 /* eslint-disable no-console */
-import {ApolloGateway} from '@apollo/gateway';
+import {
+  ApolloGateway,
+  GraphQLDataSourceProcessOptions,
+  RemoteGraphQLDataSource,
+} from '@apollo/gateway';
 import {ApolloServer} from 'apollo-server';
 
+import {verifyToken} from './auth';
+
+export type ServerContext = {userId: string | null};
+
+class AuthenticatedDataSource extends RemoteGraphQLDataSource {
+  willSendRequest({
+    request,
+    context,
+  }: GraphQLDataSourceProcessOptions<ServerContext>) {
+    if ('userId' in context && context.userId) {
+      request.http?.headers.set('x-user-id', context.userId);
+    }
+  }
+}
+
 const gateway = new ApolloGateway({
+  buildService({name, url}) {
+    return new AuthenticatedDataSource({url});
+  },
   serviceList: [{name: 'main', url: process.env.SERVICE_URL_MAIN}],
 });
 
-const server = new ApolloServer({gateway});
+const server = new ApolloServer({
+  gateway,
+  async context({req}): Promise<ServerContext> {
+    const authrorization = req.headers.authorization;
+    if (!authrorization) return {userId: null};
+    return verifyToken(authrorization).then(({userId}) => ({userId}));
+  },
+});
 
 server
   .listen(parseInt(process.env.PORT, 10))
