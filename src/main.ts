@@ -1,14 +1,18 @@
-import {NestFactory} from '@nestjs/core';
+/* eslint-disable no-console */
+import {ApolloGateway} from '@apollo/gateway';
+import {ApolloServer} from 'apollo-server';
 
-import {AppModule} from './app.module';
+const gateway = new ApolloGateway({
+  serviceList: [{name: 'main', url: process.env.SERVICE_URL_MAIN}],
+});
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: true,
-    credentials: true,
+const server = new ApolloServer({gateway});
+
+server
+  .listen(parseInt(process.env.PORT, 10))
+  .then(({url}) => {
+    console.log(`Server ready at ${url}`);
+  })
+  .catch((error) => {
+    console.error(error);
   });
-  // eslint-disable-next-line no-process-env
-  await app.listen(process.env.PORT || 4000);
-}
-bootstrap();
