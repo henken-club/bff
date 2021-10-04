@@ -33,7 +33,8 @@ const server = new ApolloServer({
   async context({req}): Promise<ServerContext> {
     const authrorization = req.headers.authorization;
     if (!authrorization) return {userId: null};
-    return verifyToken(authrorization).then(({userId}) => ({userId}));
+    const token = authrorization.replace(/^Bearer (.*)/, '$1');
+    return verifyToken(token).then(({userId}) => ({userId}));
   },
 });
 
