@@ -186,7 +186,9 @@ type Query {
   findUser(alias: String, id: ID): FindUserPayload!
   henken(id: ID!): Henken!
   user(id: ID!): User!
-  viewer: User!
+
+  """Return current user. Return `null` if user not registered"""
+  viewer: User
 }
 
 type User implements Node {
