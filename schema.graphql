@@ -72,7 +72,7 @@ interface Edge {
 }
 
 type FindAnswerPayload {
-  henken: Answer
+  answer: Answer
 }
 
 type FindBookPayload {
