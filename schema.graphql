@@ -3,7 +3,6 @@ type Answer implements Node {
   createdAt: DateTime!
   henken: Henken!
   id: ID!
-  type: AnswerType!
   updatedAt: DateTime!
 }
 
@@ -26,11 +25,6 @@ input AnswerOrder {
 enum AnswerOrderField {
   CREATED_AT
   UPDATED_AT
-}
-
-enum AnswerType {
-  RIGHT
-  WRONG
 }
 
 type Book implements Content & Node {
@@ -78,7 +72,7 @@ interface Edge {
 }
 
 type FindAnswerPayload {
-  answer: Answer
+  henken: Answer
 }
 
 type FindBookPayload {
@@ -183,13 +177,14 @@ type Query {
   findBook(id: ID!): FindBookPayload!
   findBookSeries(id: ID!): FindBookSeriesPayload!
   findHenken(id: ID!): FindHenkenPayload!
-  findUser(id: ID!): FindUserPayload!
+  findUser(alias: String, id: ID): FindUserPayload!
   henken(id: ID!): Henken!
   user(id: ID!): User!
   viewer: User!
 }
 
 type User implements Node {
+  alias: String!
   followees(after: String, before: String, first: Int, last: Int, orderBy: FollowingOrder!): FollowingConnection!
   followers(after: String, before: String, first: Int, last: Int, orderBy: FollowingOrder!): FollowingConnection!
   id: ID!
