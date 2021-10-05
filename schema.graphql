@@ -3,6 +3,7 @@ type Answer implements Node {
   createdAt: DateTime!
   henken: Henken!
   id: ID!
+  type: AnswerType!
   updatedAt: DateTime!
 }
 
@@ -25,6 +26,11 @@ input AnswerOrder {
 enum AnswerOrderField {
   CREATED_AT
   UPDATED_AT
+}
+
+enum AnswerType {
+  RIGHT
+  WRONG
 }
 
 type Book implements Content & Node {
@@ -72,7 +78,7 @@ interface Edge {
 }
 
 type FindAnswerPayload {
-  henken: Answer
+  answer: Answer
 }
 
 type FindBookPayload {
