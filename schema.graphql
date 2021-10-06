@@ -115,7 +115,7 @@ interface Content {
   id: ID!
 }
 
-union ContentUnion = Book | BookSeries
+union ContentUnion = Author | Book | BookSeries
 
 type CreateHenkenPayload {
   henken: Henken!
