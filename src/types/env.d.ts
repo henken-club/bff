@@ -6,5 +6,6 @@ declare namespace NodeJS {
 
     readonly PORT: string;
     readonly SERVICE_URL_MAIN: string;
+    readonly SERVICE_URL_CONTENT: string;
   }
 }
