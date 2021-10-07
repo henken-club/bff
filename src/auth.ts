@@ -7,7 +7,7 @@ const jwksClient = createJwksClient({jwksUri: process.env.JWKS_URI});
 
 export const verifyToken = async (
   token: string,
-): Promise<{userId: string | null}> => {
+): Promise<{accountId: string | null}> => {
   const decoded = decode(token, {complete: true});
   if (!decoded?.header.kid) throw new JsonWebTokenError('Invalid token');
 
@@ -22,5 +22,5 @@ export const verifyToken = async (
   });
   if (typeof tokenData === 'string') throw new Error('Invalid token data');
 
-  return {userId: tokenData.sub || null};
+  return {accountId: tokenData.sub || null};
 };

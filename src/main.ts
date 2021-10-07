@@ -16,7 +16,7 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     context,
   }: GraphQLDataSourceProcessOptions<ServerContext>) {
     if ('userId' in context && context.userId) {
-      request.http?.headers.set('x-user-id', context.userId);
+      request.http?.headers.set('x-account-id', context.userId);
     }
   }
 }
@@ -34,7 +34,7 @@ const server = new ApolloServer({
     const authrorization = req.headers.authorization;
     if (!authrorization) return {userId: null};
     const token = authrorization.replace(/^Bearer (.*)/, '$1');
-    return verifyToken(token).then(({userId}) => ({userId}));
+    return verifyToken(token).then(({accountId: userId}) => ({userId}));
   },
 });
 
