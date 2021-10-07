@@ -25,7 +25,10 @@ const gateway = new ApolloGateway({
   buildService({name, url}) {
     return new AuthenticatedDataSource({url});
   },
-  serviceList: [{name: 'main', url: process.env.SERVICE_URL_MAIN}],
+  serviceList: [
+    {name: 'main', url: process.env.SERVICE_URL_MAIN},
+    {name: 'content', url: process.env.SERVICE_URL_CONTENT},
+  ],
 });
 
 const server = new ApolloServer({

@@ -11,5 +11,6 @@ declare namespace NodeJS {
     readonly ISSUER: string;
 
     readonly SERVICE_URL_MAIN: string;
+    readonly SERVICE_URL_CONTENT: string;
   }
 }
