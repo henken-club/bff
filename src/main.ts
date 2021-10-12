@@ -28,6 +28,7 @@ const gateway = new ApolloGateway({
   serviceList: [
     {name: 'main', url: process.env.SERVICE_URL_MAIN},
     {name: 'content', url: process.env.SERVICE_URL_CONTENT},
+    {name: 'search', url: process.env.SERVICE_URL_SEARCH},
   ],
 });
 
