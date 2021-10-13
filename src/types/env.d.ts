@@ -12,5 +12,6 @@ declare namespace NodeJS {
 
     readonly SERVICE_URL_MAIN: string;
     readonly SERVICE_URL_CONTENT: string;
+    readonly SERVICE_URL_SEARCH: string;
   }
 }
