@@ -16,9 +16,9 @@ RUN yarn install --frozen-lockfile --production && yarn cache clean
 FROM deps AS builder
 WORKDIR /app
 
-COPY tsconfig.json tsconfig.build.json nest-cli.json ./
+COPY tsconfig.json tsconfig.build.json ./
 COPY src ./src
-RUN npm run build
+RUN yarn run build
 
 # runner
 FROM node:16.9.1-slim AS runner
