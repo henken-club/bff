@@ -3,6 +3,7 @@ type Answer implements Node {
   createdAt: DateTime!
   henken: Henken!
   id: ID!
+  type: AnswerType!
   updatedAt: DateTime!
 }
 
@@ -27,8 +28,43 @@ enum AnswerOrderField {
   UPDATED_AT
 }
 
+enum AnswerType {
+  RIGHT
+  WRONG
+}
+
+type Author implements Content & Node {
+  id: ID!
+}
+
+type AuthorConnection implements Connection {
+  edges: [AuthorEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type AuthorEdge implements Edge {
+  cursor: String!
+  node: Author!
+}
+
+input AuthorOrder {
+  direction: OrderDirection!
+  field: AuthorOrderField!
+}
+
+enum AuthorOrderField {
+  LINKED_HENKENS
+}
+
 type Book implements Content & Node {
   id: ID!
+}
+
+type BookConnection implements Connection {
+  edges: [BookEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 type BookEdge implements Edge {
@@ -36,13 +72,37 @@ type BookEdge implements Edge {
   node: Book!
 }
 
+input BookOrder {
+  direction: OrderDirection!
+  field: BookOrderField!
+}
+
+enum BookOrderField {
+  LINKED_HENKENS
+}
+
 type BookSeries implements Content & Node {
   id: ID!
+}
+
+type BookSeriesConnection implements Connection {
+  edges: [BookSeriesEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 type BookSeriesEdge implements Edge {
   cursor: String!
   node: BookSeries!
+}
+
+input BookSeriesOrder {
+  direction: OrderDirection!
+  field: BookSeriesOrderField!
+}
+
+enum BookSeriesOrderField {
+  LINKED_HENKENS
 }
 
 interface Connection {
@@ -55,7 +115,7 @@ interface Content {
   id: ID!
 }
 
-union ContentUnion = Book | BookSeries
+union ContentUnion = Author | Book | BookSeries
 
 type CreateHenkenPayload {
   henken: Henken!
@@ -72,7 +132,11 @@ interface Edge {
 }
 
 type FindAnswerPayload {
-  henken: Answer
+  answer: Answer
+}
+
+type FindAuthorPayload {
+  author: Author
 }
 
 type FindBookPayload {
@@ -171,19 +235,30 @@ type PageInfo {
 
 type Query {
   answer(id: ID!): Answer!
+  author(id: ID!): Author!
   book(id: ID!): Book!
   bookSeries(id: ID!): BookSeries!
   findAnswer(id: ID!): FindAnswerPayload!
+  findAuthor(id: ID!): FindAuthorPayload!
   findBook(id: ID!): FindBookPayload!
   findBookSeries(id: ID!): FindBookSeriesPayload!
   findHenken(id: ID!): FindHenkenPayload!
-  findUser(id: ID!): FindUserPayload!
+  findUser(alias: String, id: ID): FindUserPayload!
   henken(id: ID!): Henken!
+  manyAnswers(after: String, before: String, first: Int, last: Int, orderBy: AnswerOrder!): AnswerConnection!
+  manyAuthors(after: String, before: String, first: Int, last: Int, orderBy: AuthorOrder!): AuthorConnection!
+  manyBookSeries(after: String, before: String, first: Int, last: Int, orderBy: BookSeriesOrder!): BookSeriesConnection!
+  manyBooks(after: String, before: String, first: Int, last: Int, orderBy: BookOrder!): BookConnection!
+  manyHenkens(after: String, before: String, first: Int, last: Int, orderBy: HenkenOrder!): HenkenConnection!
+  manyUsers(after: String, before: String, first: Int, last: Int, orderBy: UserOrder!): UserConnection!
   user(id: ID!): User!
-  viewer: User!
+
+  """Return current user. Return `null` if user not registered"""
+  viewer: User
 }
 
 type User implements Node {
+  alias: String!
   followees(after: String, before: String, first: Int, last: Int, orderBy: FollowingOrder!): FollowingConnection!
   followers(after: String, before: String, first: Int, last: Int, orderBy: FollowingOrder!): FollowingConnection!
   id: ID!
@@ -191,6 +266,26 @@ type User implements Node {
   postsHenkens(after: String, before: String, filter: UserPostsHenkensFilter, first: Int, last: Int, orderBy: HenkenOrder!): HenkenConnection!
   receivedAnswers(after: String, before: String, filter: UserReceivedAnswersFilter, first: Int, last: Int, orderBy: AnswerOrder!): AnswerConnection!
   receivedHenkens(after: String, before: String, filter: UserReceivedHenkensFilter, first: Int, last: Int, orderBy: HenkenOrder!): HenkenConnection!
+}
+
+type UserConnection implements Connection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdge implements Edge {
+  cursor: String!
+  node: User!
+}
+
+input UserOrder {
+  direction: OrderDirection!
+  field: UserOrderField!
+}
+
+enum UserOrderField {
+  CREATED_AT
 }
 
 input UserPostsAnswersFilter {
